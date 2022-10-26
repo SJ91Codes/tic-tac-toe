@@ -1,0 +1,69 @@
+.game-board{
+    position: absolute;
+    top:150px;
+    left:650px;
+    display:grid;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: repeat(3,200px);
+}
+
+[data-pos = "0"]{
+    border-right: solid black 2.5px;
+    border-bottom: solid black 4px
+    
+}
+
+[data-pos = "1"]{
+    border-left: solid black 2.5px;
+    border-bottom: solid black 4px;
+    border-right: solid black 2.5px;
+}
+
+[data-pos = "2"]{
+    border-left: solid black 2.5px;
+    border-bottom: solid black 4px;
+}
+
+[data-pos = "3"]{
+    
+    border-bottom: solid black 2.5px;
+    border-right: solid black 2.5px;
+}
+
+[data-pos = "4"]{
+    border-left: solid black 2.5px;
+    border-bottom: solid black 2.5px;
+    border-right: solid black 2.5px;
+}
+
+[data-pos = "5"]{
+    border-left: solid black 2.5px;
+    border-bottom: solid black 2.5px;
+}
+
+[data-pos = "6"]{
+    
+    border-top: solid black 2.5px;
+    border-right: solid black 2.5px;
+}
+
+[data-pos = "7"]{
+    border-left: solid black 2.5px;
+    border-top: solid black 2.5px;
+    border-right: solid black 2.5px;
+}
+
+[data-pos = "8"]{
+    border-left: solid black 2.5px;
+    border-top: solid black 2.5px;
+}
+
+.piece:hover{
+    cursor: pointer;
+}
+
+.piece{
+    font-size:100px;
+    text-align: center;
+    padding-top:25px;
+}
