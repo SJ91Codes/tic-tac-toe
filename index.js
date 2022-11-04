@@ -1,3 +1,4 @@
+// player object
 const Player = (piece, player) =>{
     piece = piece;
     player = player;
@@ -12,6 +13,7 @@ const gameboard = (() => {
     // array containing player positions
     let boardArray = []
     let toPlay
+    let moves = 0
 
 
 
@@ -41,8 +43,10 @@ const gameboard = (() => {
                 }
             })
             // if 3 winning combos in player positions then player has won
-            if(check ===3){
-                winner()
+            if(check >2){
+                winner(player.piece)
+            }else if(gameboard.moves>8){
+                winner("draw")
             }
 
         })
@@ -50,17 +54,27 @@ const gameboard = (() => {
             
     }
 
-    const winner= ()=>{
+    const winner= (piece)=>{
+        // hide gameboard
         const hBoard = document.querySelector(".game-board")
         hBoard.classList.add("hidden")
+        // create div to display result
         const result = document.createElement("div")
         result.classList.add("result")
-        result.innerText=`${player.piece} wins`
+        // add result to display
+        if(piece === "draw"){
+            result.innerText=`${piece}`
+
+        }else{
+            result.innerText=`${piece} wins`
+        }
         document.body.appendChild(result)
+        // end the game
+        throw new Error("game over")
 
     }
    
-    return{create, boardArray, compare, toPlay}
+    return{create, boardArray, compare, toPlay, winner, moves}
     
     
 })();
@@ -98,6 +112,7 @@ const displayControl = (()=>{
         gameboard.boardArray[toPlace] = getPlayer()
         //add selected position to players array, converted to int
         player.positions.push(Number(toPlace))
+        gameboard.moves++
         //place all positions on board, check if player has won and change current player
         render()
         gameboard.compare(player)
@@ -106,23 +121,37 @@ const displayControl = (()=>{
         }else if (gameboard.toPlay === "pvc"){
             changePlayer()
             compMove()
+            gameboard.moves++
+            gameboard.compare(player)
+            console.log("game" + gameboard.moves)
+            changePlayer()
         }
         
     }
 
     const compMove = ()=>{
-        let cMove = Math.floor(Math.random() * 10);
-        while(player.positions.includes(cMove) == true){
-            cMove = Math.floor(Math.random() * 10);
+        // generate random number for computer position
+        let cMove = Math.floor(Math.random() * 9);
+        //if position is taken generate another random nuber until unique one is chosen
+        if(gameboard.moves<9){
+            while(gameboard.boardArray[cMove] != null ){
+                cMove = Math.floor(Math.random() * 9);
+                console.log(cMove)
+            }
         }
+        // place compmove in board array and add position to player 2 positions list
         gameboard.boardArray[cMove] = getPlayer()
         player.positions.push(cMove)
-        render()
+        let randomWait = Math.floor(Math.random()*2000)
+        console.log(randomWait)
+        setTimeout(render, randomWait)
         
     }
     return{getPlayer, place}
 
 })();
+
+// set screen to choose between pvc or pvp
 let play = document.querySelector("button.play")
 play.addEventListener("click", ()=>{
     const toPick = document.querySelector("#play")
@@ -136,10 +165,10 @@ play.addEventListener("click", ()=>{
 
 })
 
-
+// create players
 const player1 = Player("x", 1)
 const player2 = Player("o", 2)
-
+// start game with player as player 1
 let player = player1
 
 
